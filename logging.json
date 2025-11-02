@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "formatters": {
+    "simpleFormatter": {
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+      "datefmt": "%m/%d/%Y %I:%M:%S %p"
+    }
+  },
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "formatter": "simpleFormatter",
+      "level": "INFO",
+      "stream": "ext://sys.stdout"
+    },
+    "ripperHandler": {
+      "class": "logging.handlers.RotatingFileHandler",
+      "formatter": "simpleFormatter",
+      "level": "DEBUG",
+      "filename": "logs/ripper.log"
+    }
+  },
+  "root": {
+    "level": "DEBUG",
+    "handlers": ["console", "ripperHandler"]
+  }
+}
