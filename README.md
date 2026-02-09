@@ -27,7 +27,7 @@ sheets -h
 ```
 
 ```bash
-sheets --url "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?gid=0#gid=0"
+sheets --url "your_spreadsheet_url_here"
 ```
 
 ## Development
