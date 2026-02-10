@@ -31,6 +31,12 @@ def get_args():
         default="A:Z",
         help="The range to copy.",
     )
+    parser.add_argument(
+        "-p",
+        "--path",
+        default="./ripper_results.csv",
+        help="The file output path and name.",
+    )
     args = parser.parse_args()
     if args.url:
         args.identifier = get_spreadsheet_id(args.url)

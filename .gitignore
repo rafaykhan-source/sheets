@@ -15,7 +15,7 @@ credentials.json
 token.json
 
 # Data, logs, scripts
-results.csv
+ripper_results.csv
 *.log
 *.sh
 

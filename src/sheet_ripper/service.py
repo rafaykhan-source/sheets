@@ -16,6 +16,7 @@ class SheetService:
     def __post_init__(self):
         self.scopes = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
         self.logger = logging.getLogger(__name__)
+        self._build_sheets()
 
     def _authenticate(self):
         creds = None
@@ -42,7 +43,7 @@ class SheetService:
 
         return creds
 
-    def build_sheets(self):
+    def _build_sheets(self):
         creds = self._authenticate()
         with build("sheets", "v4", credentials=creds) as service:
             self.sheets = service.spreadsheets()
