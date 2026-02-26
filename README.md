@@ -38,3 +38,7 @@ uv sync
 . .venv/bin/activate
 sheets -h
 ```
+
+## Configuring Scopes & OAuth
+
+See Google's [guide](https://developers.google.com/workspace/guides/configure-oauth-consent).

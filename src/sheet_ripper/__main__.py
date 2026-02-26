@@ -1,6 +1,6 @@
 import logging
 
-from sheet_ripper import CSVWriter, SheetService
+from sheet_ripper import SheetService
 from sheet_ripper.cli import get_args
 
 # from sheet_ripper.utilities import get_logger
@@ -19,6 +19,7 @@ def configure_logging() -> logging.Logger:
     ch.setFormatter(formatter)
 
     # add ch to logger
+    # TODO: Figure out why this was called ch.
     logger.addHandler(ch)
     logger.debug("Loaded logging configuration.")
     return logger
@@ -32,11 +33,17 @@ def main() -> None:
     service = SheetService()
     logger.info("Built Sheet Service.")
 
-    values = service.get_sheet_values(args.identifier, args.range)
+    # values = service.get_sheet_values(args.identifier, args.range)
+    result = service.write_sheet_values(
+        args.identifier,
+        "Test",
+        [["a", "b", "c"], ["d", "e", "f"]],
+    )
+    print(result)
 
-    writer = CSVWriter()
-    writer.write(args.path, values)
-    logger.info("Wrote results.")
+    # writer = CSVWriter()
+    # writer.write(args.path, values)
+    # logger.info("Wrote results.")
 
 
 if __name__ == "__main__":

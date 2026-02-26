@@ -14,7 +14,7 @@ class SheetService:
     scopes: list[str] = field(default_factory=list)
 
     def __post_init__(self):
-        self.scopes = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+        self.scopes = ["https://www.googleapis.com/auth/drive.file"]
         self.logger = logging.getLogger(__name__)
         self._build_sheets()
 
@@ -48,7 +48,17 @@ class SheetService:
         with build("sheets", "v4", credentials=creds) as service:
             self.sheets = service.spreadsheets()
 
+    def _validate_sheet_service(self):
+        if not self.sheets:
+            self.logger.error("Sheet Service Failed to Construct.")
+            return False
+
+        return True
+
     def get_sheet_values(self, id: str, range: str):
+        if not self._validate_sheet_service():
+            return
+
         try:
             result = (
                 self.sheets.values()
@@ -67,3 +77,35 @@ class SheetService:
 
         except HttpError as err:
             print(err)
+
+    def write_sheet_values(
+        self,
+        id: str,
+        sheet_name: str,
+        values: list[list],
+        range: str | None = None,
+    ):
+        if not self._validate_sheet_service():
+            return
+
+        if not range:
+            rows = len(values) + 1
+            col = chr(ord("A") + len(values[0]) + 1)
+            range = f"{sheet_name}!A1:{col}{rows}"
+
+        try:
+            body = {"values": values}
+            result = (
+                self.sheets.values()
+                .update(
+                    spreadsheetId=id,
+                    range=range,
+                    valueInputOption="USER_ENTERED",
+                    body=body,
+                )
+                .execute()
+            )
+            return result
+        except HttpError as err:
+            print(err)
+            return err
